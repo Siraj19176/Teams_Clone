@@ -110,7 +110,10 @@ function sendMessage() {
   console.log(msg+" "+msg.length)
   if (msg.length > 0) {
     socket.emit("new-message", msg,ROOM_ID);
+
   }
+  document.getElementById('message').value='';
+
 }
 
 socket.on("message", function(message) {
@@ -120,7 +123,7 @@ socket.on("message", function(message) {
   var textnode = document.createTextNode(message);
   node.appendChild(textnode);
   ref.appendChild(node);
-  document.getElementById('message').value='';
+  // document.getElementById('message').value='';
   scroll()
 
 })
