@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>To Do List</title>
+  <link rel="stylesheet" href="css/styles_agenda.css">
+</head>
+
+<body>
+  <div class="box" id="heading">
+    <h1> <%= kindOfDay%> </h1>
+  </div>
+
+  <div class="box">
+    <ul>
+      <%for(var i=0;i<newActivity.length;i++){%>
+      <div class="item">
+        <input type="checkbox" name="" value="">
+        <p><%= newActivity[i] %> </p>
+      </div>
+
+      <%}%>
+    </ul>
+    <form class="item" action="/agenda" method="post">
+      <input type="text" name="newActivity" value="" placeholder="New-Agenda" autocomplete="off">
+      <button type="submit" name="button" class="add-button">+</button>
+    </form>
+  </div>
+
+  <div >
+    <form class="" action="/joinRoom" method="post">
+      <button type="submit" name="button" class="joinRoom-button"><h1>Join Room</h1></button>
+    </form>
+
+  </div>
+  </body>
+</html>
