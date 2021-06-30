@@ -10,7 +10,7 @@ let myVideoStream;
 var peer = new Peer(undefined, {
   path: '/p',
   host: '/',
-  port: '3000'
+  port: '443'
 })
 
 const peers = {}
@@ -35,7 +35,7 @@ promise.then(function(stream) {
   // myVideo2.srcObject=stream;
   // myVideo2.play();
   // grid.append(myVideo2);
-  
+
   helper(myVideo, stream)
   peer.on('call', function(call) {
     console.log("call aaya ")
