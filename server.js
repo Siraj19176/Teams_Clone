@@ -74,6 +74,9 @@ io.on('connection',function(socket){
       console.log('user disconnected with id '+userId)
       socket.broadcast.to(room).emit('remove-user', userId)
     })
+    socket.on('disconnect-me',function(){
+      socket.disconnect()
+    })
 
 
   })

@@ -10,7 +10,7 @@ let myVideoStream;
 var peer = new Peer(undefined, {
   path: '/p',
   host: '/',
-  port: '443'
+  port: '3000'
 })
 
 const peers = {}
@@ -136,9 +136,14 @@ socket.on('remove-user',function(userId){
     peers[userId].close();
   }
 
-
 })
 function scroll(){
   var ref=document.querySelector('.main__chat__window')
   ref.scrollTop = ref.scrollHeight;
+}
+
+function close_window(){
+  console.log("closing Meeting")
+  socket.emit('disconnect-me')
+  peer.destroy();
 }
