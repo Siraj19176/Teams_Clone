@@ -10,7 +10,7 @@ let myVideoStream;
 var peer = new Peer(undefined, {
   path: '/p',
   host: '/',
-  port: '443'
+  port: '3000'
 })
 
 const peers = {}
@@ -146,4 +146,6 @@ function close_window(){
   console.log("closing Meeting")
   socket.emit('disconnect-me')
   peer.destroy();
+  location.href = 'https://damp-spire-56508.herokuapp.com';
+
 }
