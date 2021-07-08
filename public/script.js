@@ -71,7 +71,7 @@ promise.then(function(stream) {
   socket.on("new-user-in-the-room", (userId) => {
     console.log("User Connected", userId);
     //ConnectNewUser(userId, stream);
-    setTimeout(ConnectNewUser, 5000, userId, stream)
+    setTimeout(ConnectNewUser, 3000, userId, stream)
   });
 }).catch(function(err) {
   console.log("u got an error:" + err)
