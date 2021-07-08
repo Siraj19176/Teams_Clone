@@ -3,10 +3,11 @@ const grid = document.getElementById('grid');
 
 const myVideo = document.createElement('video')
 
-//const myVideo2=document.createElement('video')
+let videoCount=0
+
 myVideo.muted = true
-//myVideo2.muted=true
-let myVideoStream;
+
+let myVideoStream
 var peer = new Peer(undefined, {
   path: '/p',
   host: '/',
@@ -49,6 +50,15 @@ promise.then(function(stream) {
     call.on('close', function(){
       console.log("remove video of the peer")
       video.remove()
+      videoCount=document.querySelectorAll("video").length;
+      if(videoCount<=3){
+        grid.style.gridTemplateRows="repeat(1, 1fr)"
+        grid.style.gridTemplateColumns="repeat(" +videoCount+", 1fr)"
+      }
+      else{
+        grid.style.gridTemplateRows="repeat(2, 1fr)"
+        grid.style.gridTemplateColumns="repeat(2, 1fr)"
+      }
     })
 
     console.log('peer id ' +peer.id)
@@ -84,6 +94,15 @@ function ConnectNewUser(userId, stream) {
   call.on('close', function(){
     console.log("remov video inside coonect new user")
     video.remove()
+    videoCount=document.querySelectorAll("video").length;
+    if(videoCount<=3){
+      grid.style.gridTemplateRows="repeat(1, 1fr)"
+      grid.style.gridTemplateColumns="repeat(" +videoCount+", 1fr)"
+    }
+    else{
+      grid.style.gridTemplateRows="repeat(2, 1fr)"
+      grid.style.gridTemplateColumns="repeat(2, 1fr)"
+    }
   })
   console.log("we are inside the connect new user function")
   console.log("peer id "+peer.id)
@@ -99,10 +118,20 @@ function ConnectNewUser(userId, stream) {
 function helper(video, stream) {
   video.srcObject = stream
   video.addEventListener('loadedmetadata', function() {
-    video.play();
+    video.play()
   })
   //video.play();
   grid.append(video)
+  videoCount=document.querySelectorAll("video").length;
+  if(videoCount<=3){
+    grid.style.gridTemplateRows="repeat(1, 1fr)"
+    grid.style.gridTemplateColumns="repeat(" +videoCount+", 1fr)"
+  }
+  else{
+    grid.style.gridTemplateRows="repeat(2, 1fr)"
+    grid.style.gridTemplateColumns="repeat(2, 1fr)"
+  }
+  console.log("videoCount "+videoCount)
 }
 
 function sendMessage() {
