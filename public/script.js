@@ -3,7 +3,7 @@ const grid = document.getElementById('grid');
 
 const myVideo = document.createElement('video')
 
-let videoCount=0
+let videoCount = 0
 
 myVideo.muted = true
 
@@ -25,22 +25,14 @@ const promise = navigator.mediaDevices.getUserMedia(constraints)
 
 promise.then(function(stream) {
   myVideoStream = stream
-  //addVideoStream(myVideo, stream)
-  //myVideo.srcObject=stream;
-  // myVideo.addEventListener('loadedmetadata', function(){
-  //   myVideo.play();
-  // })
-  // myVideo.play()
-  // grid.append(myVideo)
-  //
-  // myVideo2.srcObject=stream;
-  // myVideo2.play();
-  // grid.append(myVideo2);
 
   helper(myVideo, stream)
+
   peer.on('call', function(call) {
     console.log("call aaya ")
-    setTimeout(function(){ call.answer(stream) }, 3000)
+    setTimeout(function() {
+      call.answer(stream)
+    }, 3000)
     //call.answer(stream)
     const video = document.createElement('video')
     call.on('stream', function(userVideoStream) {
@@ -48,22 +40,21 @@ promise.then(function(stream) {
       helper(video, userVideoStream)
     })
 
-    call.on('close', function(){
+    call.on('close', function() {
       console.log("remove video of the peer")
       video.remove()
-      videoCount=document.querySelectorAll("video").length;
-      if(videoCount<=3){
-        grid.style.gridTemplateRows="repeat(1, 1fr)"
-        grid.style.gridTemplateColumns="repeat(" +videoCount+", 1fr)"
-      }
-      else{
-        grid.style.gridTemplateRows="repeat(2, 1fr)"
-        grid.style.gridTemplateColumns="repeat(2, 1fr)"
+      videoCount = document.querySelectorAll("video").length;
+      if (videoCount <= 3) {
+        grid.style.gridTemplateRows = "repeat(1, 1fr)"
+        grid.style.gridTemplateColumns = "repeat(" + videoCount + ", 1fr)"
+      } else {
+        grid.style.gridTemplateRows = "repeat(2, 1fr)"
+        grid.style.gridTemplateColumns = "repeat(2, 1fr)"
       }
     })
 
-    console.log('peer id ' +peer.id)
-    peers[call.peer]=call
+    console.log('peer id ' + peer.id)
+    peers[call.peer] = call
     console.log(peers)
 
   })
@@ -92,25 +83,24 @@ function ConnectNewUser(userId, stream) {
     helper(video, userVideoStream)
   })
 
-  call.on('close', function(){
-    console.log("remov video inside coonect new user")
+  call.on('close', function() {
+    console.log("remove video inside connect new user")
     video.remove()
-    videoCount=document.querySelectorAll("video").length;
-    if(videoCount<=3){
-      grid.style.gridTemplateRows="repeat(1, 1fr)"
-      grid.style.gridTemplateColumns="repeat(" +videoCount+", 1fr)"
-    }
-    else{
-      grid.style.gridTemplateRows="repeat(2, 1fr)"
-      grid.style.gridTemplateColumns="repeat(2, 1fr)"
+    videoCount = document.querySelectorAll("video").length;
+    if (videoCount <= 3) {
+      grid.style.gridTemplateRows = "repeat(1, 1fr)"
+      grid.style.gridTemplateColumns = "repeat(" + videoCount + ", 1fr)"
+    } else {
+      grid.style.gridTemplateRows = "repeat(2, 1fr)"
+      grid.style.gridTemplateColumns = "repeat(2, 1fr)"
     }
   })
   console.log("we are inside the connect new user function")
-  console.log("peer id "+peer.id)
-  console.log("user id "+userId)
+  console.log("peer id " + peer.id)
+  console.log("user id " + userId)
 
   //peers[peer.id]=call
-  peers[userId]=call
+  peers[userId] = call
   console.log(peers)
 
 }
@@ -123,26 +113,25 @@ function helper(video, stream) {
   })
   //video.play();
   grid.append(video)
-  videoCount=document.querySelectorAll("video").length;
-  if(videoCount<=3){
-    grid.style.gridTemplateRows="repeat(1, 1fr)"
-    grid.style.gridTemplateColumns="repeat(" +videoCount+", 1fr)"
+  videoCount = document.querySelectorAll("video").length;
+  if (videoCount <= 3) {
+    grid.style.gridTemplateRows = "repeat(1, 1fr)"
+    grid.style.gridTemplateColumns = "repeat(" + videoCount + ", 1fr)"
+  } else {
+    grid.style.gridTemplateRows = "repeat(2, 1fr)"
+    grid.style.gridTemplateColumns = "repeat(2, 1fr)"
   }
-  else{
-    grid.style.gridTemplateRows="repeat(2, 1fr)"
-    grid.style.gridTemplateColumns="repeat(2, 1fr)"
-  }
-  console.log("videoCount "+videoCount)
+  console.log("videoCount " + videoCount)
 }
 
 function sendMessage() {
   let msg = document.getElementById('message').value;
-  console.log(msg+" "+msg.length)
+  console.log(msg + " " + msg.length)
   if (msg.length > 0) {
-    socket.emit("new-message", msg,ROOM_ID);
+    socket.emit("new-message", msg, ROOM_ID);
 
   }
-  document.getElementById('message').value='';
+  document.getElementById('message').value = '';
 
 }
 
@@ -159,23 +148,42 @@ socket.on("message", function(message) {
 })
 
 
-socket.on('remove-user',function(userId){
-  console.log("remove user with id "+userId)
+socket.on('remove-user', function(userId) {
+  console.log("remove user with id " + userId)
   console.log(peers)
-  if(peers[userId]){
+  if (peers[userId]) {
     peers[userId].close();
   }
 
 })
-function scroll(){
-  var ref=document.querySelector('.main__chat__window')
+
+function scroll() {
+  var ref = document.querySelector('.main__chat__window')
   ref.scrollTop = ref.scrollHeight;
 }
 
-function close_window(){
+function close_window() {
   console.log("closing Meeting")
   socket.emit('disconnect-me')
   peer.destroy();
   location.href = 'https://damp-spire-56508.herokuapp.com';
 
 }
+
+// document.getElementById("screenShare").addEventListener("click", function(e) {
+//   navigator.mediaDevices.getDisplayMedia({
+//     video: {
+//       cursor: "always"
+//     },
+//     audio: {
+//       echoCancellation: true,
+//       noiseSuppression: true
+//     }
+//   }).then(function(stream){
+//     let videoTrack=stream.getVideoTracks()[0];
+//     let sender=
+//   }).catch(function(error){
+//     console.log("cannot share screen "+error)
+//   })
+//
+// })
