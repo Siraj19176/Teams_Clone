@@ -11,7 +11,7 @@ let myVideoStream
 var peer = new Peer(undefined, {
   path: '/p',
   host: '/',
-  port: '443'
+  port: '3000'
 })
 
 const peers = {}
@@ -32,16 +32,19 @@ promise.then(function(stream) {
 
   peer.on('call', function(call) {
     console.log("call aaya ")
-    setTimeout(function() {
-      call.answer(stream)
-    }, 5000)
+    // setTimeout(function() {
+    //   call.answer(stream)
+    // }, 5000)
     //call.answer(stream)
+    setTimeout(answerCall, 2000, call,stream)
+
     const video = document.createElement('video')
     call.on('stream', function(userVideoStream) {
       console.log("111")
       peerList[call.peer]=call.peerConnection;
       helper(video, userVideoStream)
     })
+
 
     call.on('close', function() {
       console.log("remove video of the peer")
@@ -57,9 +60,8 @@ promise.then(function(stream) {
     })
 
     console.log('peer id ' + peer.id)
-
     peers[call.peer] = call
-    console.log(call.peer)
+
 
   })
 
@@ -77,12 +79,15 @@ peer.on('open', function(id) {
   socket.emit('join-call', ROOM_ID, id)
 })
 
-
+function answerCall(call,stream){
+  call.answer(stream);
+}
 function ConnectNewUser(userId, stream) {
   var call = peer.call(userId, stream)
   const video = document.createElement('video')
   //console.log(stream)
   call.on('stream', function(userVideoStream) {
+
     console.log("222")
     helper(video, userVideoStream)
     peerList[call.peer]=call.peerConnection;
