@@ -32,10 +32,10 @@ promise.then(function(stream) {
 
   peer.on('call', function(call) {
     console.log("call aaya ")
-    // setTimeout(function() {
-    //   call.answer(stream)
-    // }, 5000)
-    call.answer(stream)
+    setTimeout(function() {
+      call.answer(stream)
+    }, 5000)
+    //call.answer(stream)
     const video = document.createElement('video')
     call.on('stream', function(userVideoStream) {
       console.log("111")
