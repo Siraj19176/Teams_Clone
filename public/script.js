@@ -34,7 +34,7 @@ promise.then(function(stream) {
     console.log("call aaya ")
     setTimeout(function() {
       call.answer(stream)
-    }, 3000)
+    }, 5000)
     //call.answer(stream)
     const video = document.createElement('video')
     call.on('stream', function(userVideoStream) {
