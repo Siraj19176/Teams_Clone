@@ -35,8 +35,8 @@ promise.then(function(stream) {
     // setTimeout(function() {
     //   call.answer(stream)
     // }, 5000)
-    //call.answer(stream)
-    setTimeout(answerCall, 5000, call,stream)
+    call.answer(stream)
+    //setTimeout(answerCall, 5000, call,stream)
 
     const video = document.createElement('video')
     call.on('stream', function(userVideoStream) {
@@ -68,7 +68,7 @@ promise.then(function(stream) {
   socket.on("new-user-in-the-room", (userId) => {
     console.log("User Connected", userId);
     //ConnectNewUser(userId, stream);
-    setTimeout(ConnectNewUser, 5000, userId, stream)
+    setTimeout(ConnectNewUser, 10000, userId, stream)
   });
 }).catch(function(err) {
   console.log("u got an error:" + err)
