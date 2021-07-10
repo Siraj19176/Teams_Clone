@@ -36,7 +36,7 @@ promise.then(function(stream) {
     //   call.answer(stream)
     // }, 5000)
     //call.answer(stream)
-    setTimeout(answerCall, 5000, call,stream)
+    setTimeout(answerCall, 1000, call,stream)
 
     const video = document.createElement('video')
     call.on('stream', function(userVideoStream) {
