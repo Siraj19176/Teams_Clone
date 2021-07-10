@@ -23,7 +23,7 @@ const constraints = {
   video: true
 }
 
-const promise = navigator.mediaDevices.getUserMedia(constraints)
+const promise = getUserMedia(constraints)
 
 promise.then(function(stream) {
   myVideoStream = stream
