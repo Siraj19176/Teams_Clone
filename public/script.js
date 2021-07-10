@@ -11,7 +11,7 @@ let myVideoStream
 var peer = new Peer(undefined, {
   path: '/p',
   host: '/',
-  port: '3000'
+  port: '443'
 })
 
 const peers = {}
