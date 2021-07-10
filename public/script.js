@@ -2,7 +2,7 @@ const socket = io("/")
 const grid = document.getElementById('grid');
 
 const myVideo = document.createElement('video')
-
+var getUserMedia =navigator.getUserMedia ||navigator.webkitGetUserMedia ||navigator.mozGetUserMedia;
 let videoCount = 0
 
 myVideo.muted = true
@@ -23,7 +23,7 @@ const constraints = {
   video: true
 }
 
-const promise = navigator.mediaDevices.getUserMedia(constraints)
+const promise = getUserMedia(constraints)
 
 promise.then(function(stream) {
   myVideoStream = stream
