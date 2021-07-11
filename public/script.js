@@ -35,8 +35,14 @@ promise.then(function(stream) {
     // setTimeout(function() {
     //   call.answer(stream)
     // }, 5000)
-    call.answer(stream)
+    console.log("checking stream while answering call "+stream.active)
+    console.log("var mediaStreamTracks[] = "+stream.getVideoTracks().length)
+    //call.answer(stream)
     //setTimeout(answerCall, 5000, call,stream)
+
+    if(stream.active && stream.getVideoTracks().length >0){
+      call.answer(stream)
+    }
 
     const video = document.createElement('video')
     call.on('stream', function(userVideoStream) {
@@ -65,10 +71,15 @@ promise.then(function(stream) {
 
   })
 
-  socket.on("new-user-in-the-room", (userId) => {
-    console.log("User Connected", userId);
+  socket.on("new-user-in-the-room",function(userId){
+    console.log("User Connected", userId)
+    console.log("checking stream while making call "+stream.active)
+    console.log("var mediaStreamTracks[] = "+stream.getVideoTracks().length)
     //ConnectNewUser(userId, stream);
-    setTimeout(ConnectNewUser, 10000, userId, stream)
+    setTimeout(ConnectNewUser, 5000, userId, stream)
+    // if(stream.getVideoTracks().length >0){
+    //   ConnectNewUser(userId, stream);
+    // }
   });
 }).catch(function(err) {
   console.log("u got an error:" + err)
@@ -85,9 +96,8 @@ function answerCall(call,stream){
 function ConnectNewUser(userId, stream) {
   var call = peer.call(userId, stream)
   const video = document.createElement('video')
-  //console.log(stream)
+  console.log(stream.getVideoTracks().length)
   call.on('stream', function(userVideoStream) {
-
     console.log("222")
     helper(video, userVideoStream)
     peerList[call.peer]=call.peerConnection;
