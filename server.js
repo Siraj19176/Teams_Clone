@@ -15,7 +15,7 @@ const io = require('socket.io')(server)
 const bodyParser = require('body-parser')
 
 let agendas = []
-let roomList={}
+let roomList = {}
 app.set("view engine", 'ejs')
 
 app.use(express.static('public'))
@@ -28,20 +28,26 @@ app.use(bodyParser.urlencoded({
 
 
 app.get('/:r', function(req, res) {
+  let r=req.params.r;
+  if(r!="favicon.ico"){
+    if(!(r in roomList)){
+      roomList[r]=[];
+  }
+    for(let i=0;i< agendas.length;i++){
+      roomList[r].push(agendas[i]);
+      console.log(agendas[i]+" a[i]")
+    }
+  }
+  console.log("r= "+r)
+  console.log(roomList)
+  temp_agendas=[]
+  if(r in roomList){
+    for(let i=0;i<roomList[r].length;i++){
+      temp_agendas.push(roomList[r][i])
+    }
+  }
+  console.log("temp_agendas= "+temp_agendas)
 
-  if(req.params.r!='favicon.ico'){
-      //console.log(req.params.r)
-      roomList[req.params.r]=[]
-      for(let x in agendas){
-        roomList[req.params.r].push(agendas[x])
-      }
-      //console.log("agendas=" +roomList[req.params.r])
-  }
-  //console.log("joing room")
-  let temp_agendas=[]
-  if(roomList[req.params.r]){
-    temp_agendas=roomList[req.params.r];
-  }
   res.render('room', {
     roomId: req.params.r,
     newActivity: temp_agendas
@@ -90,15 +96,14 @@ app.post('/joinRoom', function(req, res) {
   console.log("id of room=" + tuid)
   res.redirect('/' + tuid)
 })
-app.post('/joinRoomByNickName',function(req, res){
+app.post('/joinRoomByNickName', function(req, res) {
   //console.log(req.body.nickName)
   //console.log(req.body.nickName.length)
-  if(req.body.nickName.length>0){
-    const tuid="7017080055"+req.body.nickName+"9557960423"
+  if (req.body.nickName.length > 0) {
+    const tuid = "7017080055--" + req.body.nickName + "--9557960423"
     console.log("id of room=" + tuid)
     res.redirect('/' + tuid)
-  }
-  else{
+  } else {
     var today = new Date();
     var options = {
       weekday: "long",
