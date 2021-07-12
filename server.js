@@ -84,6 +84,20 @@ app.post('/joinRoomByNickName',function(req, res){
     console.log("id of room=" + tuid)
     res.redirect('/' + tuid)
   }
+  else{
+    var today = new Date();
+    var options = {
+      weekday: "long",
+      day: "numeric",
+      month: "long"
+    };
+
+    var date = today.toLocaleDateString("en-Us", options)
+    res.render('agenda', {
+      kindOfDay: date,
+      newActivity: agendas
+    })
+  }
 
 })
 
