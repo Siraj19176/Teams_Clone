@@ -109,6 +109,7 @@ input[type="text"]:focus {
   color: #fff;
   cursor: pointer;
 }
+
 /* .joinRoom-button:hover {
   opacity: 1;
   background-color:  #343434;
