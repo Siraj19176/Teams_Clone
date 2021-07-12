@@ -15,6 +15,7 @@ const io = require('socket.io')(server)
 const bodyParser = require('body-parser')
 
 let agendas = []
+let roomList={}
 app.set("view engine", 'ejs')
 
 app.use(express.static('public'))
@@ -27,10 +28,23 @@ app.use(bodyParser.urlencoded({
 
 
 app.get('/:r', function(req, res) {
-  //console.log(agendas)
+
+  if(req.params.r!='favicon.ico'){
+      //console.log(req.params.r)
+      roomList[req.params.r]=[]
+      for(let x in agendas){
+        roomList[req.params.r].push(agendas[x])
+      }
+      //console.log("agendas=" +roomList[req.params.r])
+  }
+  //console.log("joing room")
+  let temp_agendas=[]
+  if(roomList[req.params.r]){
+    temp_agendas=roomList[req.params.r];
+  }
   res.render('room', {
     roomId: req.params.r,
-    newActivity: agendas
+    newActivity: temp_agendas
   })
 })
 
